@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DonationAppV1</string>
+    <string name="app_title">Donation App</string>
+    <string name="paypal">PayPal</string>
+    <string name="credit_card">Credit Card</string>
+    <string name="enter_donation_amout">Enter Donation amout</string>
+</resources>
