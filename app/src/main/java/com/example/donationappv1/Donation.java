@@ -5,6 +5,11 @@ public class Donation { // App Model
     Double donatinAmout;
     int paymentMethod; // 1 for payPal and 2 for credit card
 
+    public Donation(){
+        this.donatinAmout = -1.0;
+        this.paymentMethod = 0;
+    }
+
     public Donation(Double donatinAmout, int paymentMethod) {
         this.donatinAmout = donatinAmout;
         this.paymentMethod = paymentMethod;
