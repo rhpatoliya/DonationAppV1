@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.donationappv1.Model.Donation;
+
 public class ReportActivity extends AppCompatActivity {
 TextView msg_text;
 TextView num_text;

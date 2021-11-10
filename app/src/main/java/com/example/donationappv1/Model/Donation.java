@@ -1,4 +1,4 @@
-package com.example.donationappv1;
+package com.example.donationappv1.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

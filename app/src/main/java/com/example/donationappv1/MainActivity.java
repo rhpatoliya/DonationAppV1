@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.donationappv1.Model.Donation;
+import com.example.donationappv1.Model.DonationManager;
+
 public class MainActivity extends AppCompatActivity  {
   static DonationManager donationManager = new DonationManager();
     Donation donationObject;
@@ -112,7 +115,6 @@ RadioButton credit_card_btn;
             donationObject = new Donation();
         }else {
             Toast.makeText(this,"Please enter all values ", Toast.LENGTH_LONG).show();
-
         }
         clearUI();
     }
@@ -135,8 +137,21 @@ RadioButton credit_card_btn;
              case R.id.exit:{
                  break;
              }
+             case R.id.list_activity:{
+                 openListActivity();
+                 break;
+             }
          }
          return true;
+    }
+
+    private void openListActivity(){
+        Intent toListActivity = new Intent(this,ListActivity.class);
+
+        toListActivity.putParcelableArrayListExtra("listOfDonations",donationManager.getListOfDonations());
+        toListActivity.putExtra("total",donationManager.getTotal());
+
+        startActivity(toListActivity);
     }
 
     private void openReportActivity(){
@@ -144,20 +159,20 @@ RadioButton credit_card_btn;
         ///Intent 1- deteirmine the class (Activity)
         // Intent 2- carry data
 
-        Donation d= donationManager.listOfDonations.get(donationManager.listOfDonations.size() - 1);
+        Donation d= donationManager.getListOfDonations().get(donationManager.getListOfDonations().size() - 1);
         Intent report_intent = new Intent(this,ReportActivity.class);
         report_intent.putExtra("mynewObject",d);
 
         // report_intent.putExtra("report_msg",thanksMsg);
-        report_intent.putExtra("numberOfDonations",donationManager.listOfDonations.size());
+        report_intent.putExtra("numberOfDonations",donationManager.getListOfDonations().size());
         startActivity(report_intent);
     }
     private void showAnAlert(){
         builder.create();
 
-        String payment = (donationObject.paymentMethod == 1) ?  "PayPal" : "Credit Card";
+        String payment = (donationObject.getPaymentMethod() == 1) ?  "PayPal" : "Credit Card";
 
-        builder.setMessage("Your Donation is " + donationObject.donatinAmout +
+        builder.setMessage("Your Donation is " + donationObject.getDonatinAmout() +
                 "$ which completed using " + payment );
         builder.setTitle(R.string.thankyou_mes);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -4,6 +4,7 @@
 
     <item android:title="@string/donation_report"
         android:id="@+id/report_menu_item" ></item>
+    <item android:id="@+id/list_activity" android:title="Donations List"></item>
     <item
         android:title="Exit"
         android:id="@+id/exit" />
