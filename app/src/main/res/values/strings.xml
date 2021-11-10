@@ -5,4 +5,5 @@
     <string name="credit_card">Credit Card</string>
     <string name="enter_donation_amout">Enter Donation amout</string>
     <string name="thankyou_mes">Thank you!!</string>
+    <string name="donation_report">Donation Report</string>
 </resources>

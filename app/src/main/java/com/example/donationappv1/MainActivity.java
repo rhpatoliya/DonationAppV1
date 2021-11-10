@@ -1,11 +1,16 @@
 package com.example.donationappv1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +18,14 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity  {
-    DonationManager donationManager;
+  static DonationManager donationManager = new DonationManager();
     Donation donationObject;
 // View controller
     // MVC = C
     // MVVM = V + C = Model - View - View Model
     // View Model
-
 // create reference of XML views into my activity == Java Objects
-    //
+
 Button donate_btu; // same as IBoutlet
 EditText amout_text;
 RadioButton payPal_btn;
@@ -31,6 +35,8 @@ RadioButton credit_card_btn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Log.d("Donation App","onCreate");
         donate_btu = (Button) findViewById(R.id.donate_btu);
         amout_text = (EditText) findViewById(R.id.amout_text);
@@ -38,7 +44,7 @@ RadioButton credit_card_btn;
         credit_card_btn = (RadioButton) findViewById(R.id.credit_card_radio_btu);
         donationObject = new Donation();
         builder = new AlertDialog.Builder(this);
-
+     //   donationManager = new DonationManager();
 
         // first option of creating click listner
         payPal_btn.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +75,7 @@ RadioButton credit_card_btn;
     protected void onResume() {
         super.onResume();
         Log.d("Donation App","onResume");
-        donationManager = new DonationManager();
+
     }
 
     @Override
@@ -102,43 +108,72 @@ RadioButton credit_card_btn;
         if (checkInputs()){
             donationObject.setDonatinAmout(Double.parseDouble(amout_text.getText().toString()));
             donationManager.addNewDonation(donationObject);
-            builder.create();
-
-            String payment = (donationObject.paymentMethod == 1) ?  "PayPal" : "Credit Card";
-//            if (donationObject.paymentMethod == 2) // payPay
-//            {
-//                payment = "Credit Card";
-//            }
-
-            builder.setMessage("Your Donation is " + donationObject.donatinAmout +
-                    "$ which completed using " + payment );
-            builder.setTitle(R.string.thankyou_mes);
-           // builder.setCancelable(true);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.d("Donation App","in dialog ok button");
-                }
-            });
-            builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.d("Donation App","in dialog cancel button");
-                }
-            });
-            builder.show();
-
+            showAnAlert();
             donationObject = new Donation();
-
         }else {
             Toast.makeText(this,"Please enter all values ", Toast.LENGTH_LONG).show();
 
         }
         clearUI();
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.donation_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         super.onOptionsItemSelected(item);
+         switch (item.getItemId()){
+             case R.id.report_menu_item: {
+                 openReportActivity();
+                 break;
+             }
+             case R.id.exit:{
+                 break;
+             }
+         }
+         return true;
+    }
+
+    private void openReportActivity(){
+
+        ///Intent 1- deteirmine the class (Activity)
+        // Intent 2- carry data
+
+        Donation d= donationManager.listOfDonations.get(donationManager.listOfDonations.size() - 1);
+        Intent report_intent = new Intent(this,ReportActivity.class);
+        report_intent.putExtra("mynewObject",d);
+
+        // report_intent.putExtra("report_msg",thanksMsg);
+        report_intent.putExtra("numberOfDonations",donationManager.listOfDonations.size());
+        startActivity(report_intent);
+    }
+    private void showAnAlert(){
+        builder.create();
+
+        String payment = (donationObject.paymentMethod == 1) ?  "PayPal" : "Credit Card";
+
+        builder.setMessage("Your Donation is " + donationObject.donatinAmout +
+                "$ which completed using " + payment );
+        builder.setTitle(R.string.thankyou_mes);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d("Donation App","in dialog ok button");
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d("Donation App","in dialog cancel button");
+            }
+        });
+        builder.show();
+    }
 
     Boolean checkInputs(){
         if (!amout_text.getText().toString().isEmpty()

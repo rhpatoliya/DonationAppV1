@@ -12,7 +12,7 @@ public class DonationManager { // App Model
     }
 
     public void addNewDonation(Donation d){
-        listOfDonations.add(d);
+        listOfDonations.add(d);// database locally // webservice  // cloud database
     }
 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/donation_report"
+        android:id="@+id/report_menu_item" ></item>
+    <item
+        android:title="Exit"
+        android:id="@+id/exit" />
+
+</menu>
