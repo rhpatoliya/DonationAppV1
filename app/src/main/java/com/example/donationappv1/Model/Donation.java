@@ -2,12 +2,19 @@ package com.example.donationappv1.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+
+@Entity
 public class Donation implements Parcelable { // App Model
-// parcelable
-// parcel
-    Double donatinAmout;
-    int paymentMethod; // 1 for payPal and 2 for credit card
+
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public Double donatinAmout;
+    public int paymentMethod; // 1 for payPal and 2 for credit card
 
 
     public Donation(){

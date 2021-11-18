@@ -34,10 +34,12 @@ EditText amout_text;
 RadioButton payPal_btn;
 RadioButton credit_card_btn;
     AlertDialog.Builder builder;
+    DonationDataBaseClient dataBaseClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dataBaseClient = new DonationDataBaseClient(this);
 
 
         Log.d("Donation App","onCreate");
@@ -149,7 +151,7 @@ RadioButton credit_card_btn;
         Intent toListActivity = new Intent(this,ListActivity.class);
 
         toListActivity.putParcelableArrayListExtra("listOfDonations",donationManager.getListOfDonations());
-        toListActivity.putExtra("total",donationManager.getTotal());
+      //  toListActivity.putExtra("total",donationManager.getTotal());
 
         startActivity(toListActivity);
     }
