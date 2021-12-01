@@ -19,21 +19,20 @@ import android.widget.Toast;
 
 import com.example.donationappv1.Model.Donation;
 import com.example.donationappv1.Model.DonationManager;
+import com.example.donationappv1.database.DatabaseManager;
+import com.example.donationappv1.database.DonationDatabase;
 
 public class MainActivity extends AppCompatActivity  {
   static DonationManager donationManager = new DonationManager();
     Donation donationObject;
-// View controller
-    // MVC = C
-    // MVVM = V + C = Model - View - View Model
-    // View Model
-// create reference of XML views into my activity == Java Objects
 
 Button donate_btu; // same as IBoutlet
 EditText amout_text;
 RadioButton payPal_btn;
 RadioButton credit_card_btn;
     AlertDialog.Builder builder;
+    DatabaseManager dbManager;
+    DonationDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +46,10 @@ RadioButton credit_card_btn;
         credit_card_btn = (RadioButton) findViewById(R.id.credit_card_radio_btu);
         donationObject = new Donation();
         builder = new AlertDialog.Builder(this);
-     //   donationManager = new DonationManager();
+
+        db = DatabaseManager.getDBInstance(this);
+        dbManager = ((myAPP)getApplication()).getDatabaseManager();
+
 
         // first option of creating click listner
         payPal_btn.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +113,12 @@ RadioButton credit_card_btn;
         if (checkInputs()){
             donationObject.setDonatinAmout(Double.parseDouble(amout_text.getText().toString()));
             donationManager.addNewDonation(donationObject);
+
+            // insert donation object to DB is not correct here
+            // is should run in backgound thread
+           // db.getDonationDAO().insertNewDonation(donationObject);
+            dbManager.insertNewDonation(donationObject);
+
             showAnAlert();
             donationObject = new Donation();
         }else {
@@ -149,8 +157,7 @@ RadioButton credit_card_btn;
         Intent toListActivity = new Intent(this,ListActivity.class);
 
         toListActivity.putParcelableArrayListExtra("listOfDonations",donationManager.getListOfDonations());
-        toListActivity.putExtra("total",donationManager.getTotal());
-
+        toListActivity.putExtra("total",DonationManager.getTotal(donationManager.getListOfDonations()));
         startActivity(toListActivity);
     }
 

@@ -1,7 +1,5 @@
 package com.example.donationappv1.Model;
 
-import com.example.donationappv1.DonationDataBase;
-import com.example.donationappv1.DonationDataBaseClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ public class DonationManager { // App Model
 
     public void addNewDonation(Donation d){
         listOfDonations.add(d);// database locally // webservice  // cloud database
-        DonationDataBaseClient.insertNewDonation(d);
     }
 
     public static Double getTotal(List<Donation> list){
