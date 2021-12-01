@@ -3,9 +3,17 @@ package com.example.donationappv1.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Donation implements Parcelable { // App Model
-// parcelable
-// parcel
+
+    @PrimaryKey (autoGenerate = true)
+    int id;
+
     Double donatinAmout;
     int paymentMethod; // 1 for payPal and 2 for credit card
 

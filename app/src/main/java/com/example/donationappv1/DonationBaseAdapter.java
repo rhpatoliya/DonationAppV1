@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.donationappv1.Model.Donation;
-
 import java.util.ArrayList;
 
 public class DonationBaseAdapter extends BaseAdapter {
