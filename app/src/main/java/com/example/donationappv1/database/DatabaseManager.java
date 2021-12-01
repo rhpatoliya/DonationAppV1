@@ -64,6 +64,22 @@ public class DatabaseManager {
     }
 
 
+    public void getAllDonationsBiggerThan(double amout){
+        databaseExecuter.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Donation> list =  db.getDonationDAO().getAllDonationsBiggerThan(amout);
+                db_handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.databaseAllDonationListener(list);
+                    }
+                });
+
+            }
+        });
+
+    }
 
 
 
