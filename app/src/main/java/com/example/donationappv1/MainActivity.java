@@ -19,25 +19,26 @@ import android.widget.Toast;
 
 import com.example.donationappv1.Model.Donation;
 import com.example.donationappv1.Model.DonationManager;
-import com.example.donationappv1.database.DatabaseManager;
-import com.example.donationappv1.database.DonationDatabase;
 
 public class MainActivity extends AppCompatActivity  {
   static DonationManager donationManager = new DonationManager();
     Donation donationObject;
+// View controller
+    // MVC = C
+    // MVVM = V + C = Model - View - View Model
+    // View Model
+// create reference of XML views into my activity == Java Objects
 
 Button donate_btu; // same as IBoutlet
 EditText amout_text;
 RadioButton payPal_btn;
 RadioButton credit_card_btn;
     AlertDialog.Builder builder;
-    DatabaseManager dbManager;
-    DonationDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db =  dbManager.getDBInstance(this);
+
 
         Log.d("Donation App","onCreate");
         donate_btu = (Button) findViewById(R.id.donate_btu);

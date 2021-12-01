@@ -7,10 +7,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.donationappv1.Model.Donation;
+import com.example.donationappv1.Model.DonationManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity
+        implements DonationDataBaseClient.DatabaseActionListener{
 
     ArrayList<Donation> listFromMA;
     ListView listOfDonations;
@@ -25,14 +28,19 @@ public class ListActivity extends AppCompatActivity {
         listOfDonations = findViewById(R.id.list_of_donations);
 
         listFromMA = getIntent().getParcelableArrayListExtra("listOfDonations");
-        Double t = getIntent().getExtras().getDouble("total");
-        total_text.setText("The total amout: " + t);
         number_text.setText("The number of donations is " + listFromMA.size());
+        DonationDataBaseClient.listener = this;
+        DonationDataBaseClient.getAllDonations();
+    }
 
-       DonationBaseAdapter listAdapter = new DonationBaseAdapter(listFromMA,this);
+    @Override
+    public void databaseReturnWithList(List<Donation> donationList) {
 
+        ArrayList<Donation> alDonation = new  ArrayList<Donation>(donationList);
+        DonationBaseAdapter listAdapter = new DonationBaseAdapter(alDonation,this);
+        listOfDonations.setAdapter(listAdapter);
+        total_text.setText("The total amout: " + DonationManager.getTotal(donationList));
+        number_text.setText("The number of donations is " + donationList.size());
 
-
-       listOfDonations.setAdapter(listAdapter);
     }
 }
