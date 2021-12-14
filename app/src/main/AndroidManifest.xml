@@ -11,8 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DonationAppV1">
         <activity
+            android:name=".FirestoreList"
+            android:exported="true" />
+        <activity
             android:name=".ListActivity"
-            android:exported="true" >
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.donationappv1.MainActivity" />

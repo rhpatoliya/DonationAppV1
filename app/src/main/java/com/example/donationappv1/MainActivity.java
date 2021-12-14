@@ -21,8 +21,11 @@ import com.example.donationappv1.Model.Donation;
 import com.example.donationappv1.Model.DonationManager;
 import com.example.donationappv1.database.DatabaseManager;
 import com.example.donationappv1.database.DonationDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity  {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity  implements FireStoreManager.firebaseCallBack{
   static DonationManager donationManager = new DonationManager();
     Donation donationObject;
 
@@ -32,13 +35,13 @@ RadioButton payPal_btn;
 RadioButton credit_card_btn;
     AlertDialog.Builder builder;
     DatabaseManager dbManager;
+    FireStoreManager fireStoreManager = new FireStoreManager();
     DonationDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        fireStoreManager.listener = this;
         Log.d("Donation App","onCreate");
         donate_btu = (Button) findViewById(R.id.donate_btu);
         amout_text = (EditText) findViewById(R.id.amout_text);
@@ -118,8 +121,8 @@ RadioButton credit_card_btn;
             // is should run in backgound thread
            // db.getDonationDAO().insertNewDonation(donationObject);
             dbManager.insertNewDonation(donationObject);
-
-            showAnAlert();
+            fireStoreManager.addNewDonationToFireStore(donationObject);
+           // showAnAlert();
             donationObject = new Donation();
         }else {
             Toast.makeText(this,"Please enter all values ", Toast.LENGTH_LONG).show();
@@ -147,6 +150,11 @@ RadioButton credit_card_btn;
              }
              case R.id.list_activity:{
                  openListActivity();
+                 break;
+             }
+             case R.id.firebase:{
+                 Intent intent = new Intent(this,FirestoreList.class);
+                 startActivity(intent);
                  break;
              }
          }
@@ -215,4 +223,18 @@ RadioButton credit_card_btn;
         credit_card_btn.setChecked(false);
     }
 
+    @Override
+    public void firebaseAddingDocumentListener() {
+        showAnAlert();
+    }
+
+    @Override
+    public void firebaseFailAddingDocumentListener() {
+
+    }
+
+    @Override
+    public void firebaseGettingDocumentsListener(ArrayList<Donation> list) {
+
+    }
 }
